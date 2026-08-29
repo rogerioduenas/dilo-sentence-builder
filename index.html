@@ -3,1247 +3,541 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>English Sentence Trainer</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-
-            margin: 0;
-
-            font-family: Arial, Helvetica, sans-serif;
-
-            background: #282a36;
-
-            color: #f8f8f2;
-
-            min-height: 100vh;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-        }
-
-        .container {
-
-            width: 100%;
-
-            max-width: 700px;
-
-            padding: 30px 20px;
-
-        }
-
-        .card {
-
-            background: #44475a;
-
-            border-radius: 16px;
-
-            padding: 40px;
-
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-
-        }
-
-        .header {
-
-            text-align: center;
-
-            margin-bottom: 30px;
-
-        }
-
-        .header h1 {
-
-            margin: 0 0 10px;
-
-            font-size: 30px;
-
-            color: #f8f8f2;
-
-        }
-
-        .header p {
-
-            margin: 0;
-
-            color: #bd93f9;
-
-            font-size: 15px;
-
-            line-height: 1.6;
-
-        }
-
-        .input-section {
-
-            margin-bottom: 25px;
-
-        }
-
-        .input-label {
-
-            display: block;
-
-            font-size: 12px;
-
-            font-weight: bold;
-
-            color: #bd93f9;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            margin-bottom: 8px;
-
-        }
-
-        textarea {
-
-            width: 100%;
-
-            min-height: 130px;
-
-            padding: 15px;
-
-            border-radius: 10px;
-
-            border: 1px solid #6272a4;
-
-            background: #282a36;
-
-            color: #f8f8f2;
-
-            font-family: Arial, Helvetica, sans-serif;
-
-            font-size: 15px;
-
-            line-height: 1.6;
-
-            resize: vertical;
-
-            outline: none;
-
-            transition: border-color 0.15s;
-
-        }
-
-        textarea:focus {
-
-            border-color: #bd93f9;
-
-        }
-
-        textarea::placeholder {
-
-            color: #6272a4;
-
-        }
-
-        /* =====================================================
-           GRAMMAR SELECTION
-           ===================================================== */
-
-        .grammar-section {
-
-            margin-bottom: 25px;
-
-        }
-
-        .grammar-section-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 10px;
-
-        }
-
-        .grammar-section-title {
-
-            font-size: 12px;
-
-            font-weight: bold;
-
-            color: #bd93f9;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-        }
-
-        .grammar-selection-info {
-
-            font-size: 12px;
-
-            color: #6272a4;
-
-        }
-
-        /* =====================================================
-           LEVEL ACCORDION
-           ===================================================== */
-
-        .level-box {
-
-            background: #282a36;
-
-            border: 1px solid #6272a4;
-
-            border-radius: 10px;
-
-            margin-bottom: 10px;
-
-            overflow: hidden;
-
-        }
-
-        .level-header {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            padding: 14px 16px;
-
-            cursor: pointer;
-
-            user-select: none;
-
-            transition: background 0.15s;
-
-        }
-
-        .level-header:hover {
-
-            background: #313342;
-
-        }
-
-        .level-header-left {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            min-width: 0;
-
-        }
-
-        .level-arrow {
-
-            font-size: 13px;
-
-            color: #bd93f9;
-
-            width: 16px;
-
-            transition: transform 0.2s;
-
-        }
-
-        .level-box.open .level-arrow {
-
-            transform: rotate(90deg);
-
-        }
-
-        .level-name {
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            color: #f8f8f2;
-
-        }
-
-        .level-count {
-
-            font-size: 11px;
-
-            color: #8be9fd;
-
-            white-space: nowrap;
-
-        }
-
-        .level-content {
-
-            display: none;
-
-            padding: 0 16px 15px 16px;
-
-            border-top: 1px solid #44475a;
-
-        }
-
-        .level-box.open .level-content {
-
-            display: block;
-
-        }
-
-        .level-actions {
-
-            display: flex;
-
-            gap: 8px;
-
-            margin: 12px 0;
-
-        }
-
-        .level-action {
-
-            border: none;
-
-            border-radius: 6px;
-
-            padding: 6px 10px;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            background: #44475a;
-
-            color: #bd93f9;
-
-            transition: opacity 0.15s;
-
-        }
-
-        .level-action:hover {
-
-            opacity: 0.8;
-
-        }
-
-        .topic-list {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 6px;
-
-        }
-
-        .topic-item {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            gap: 10px;
-
-            padding: 8px 9px;
-
-            border-radius: 7px;
-
-            cursor: pointer;
-
-            transition: background 0.15s;
-
-        }
-
-        .topic-item:hover {
-
-            background: #313342;
-
-        }
-
-        .topic-item input {
-
-            margin-top: 3px;
-
-            accent-color: #bd93f9;
-
-            cursor: pointer;
-
-            flex-shrink: 0;
-
-        }
-
-        .topic-info {
-
-            min-width: 0;
-
-        }
-
-        .topic-name {
-
-            display: block;
-
-            font-size: 13px;
-
-            color: #f8f8f2;
-
-            line-height: 1.4;
-
-        }
-
-        .topic-example {
-
-            display: block;
-
-            margin-top: 3px;
-
-            font-size: 11px;
-
-            color: #6272a4;
-
-            font-style: italic;
-
-            line-height: 1.4;
-
-        }
-
-        /* =====================================================
-           BUTTONS
-           ===================================================== */
-
-        .button-container {
-
-            display: flex;
-
-            gap: 10px;
-
-            justify-content: center;
-
-            margin-bottom: 35px;
-
-        }
-
-        button {
-
-            border: none;
-
-            border-radius: 10px;
-
-            padding: 14px 24px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                transform 0.15s,
-                opacity 0.15s;
-
-        }
-
-        button:hover {
-
-            transform: translateY(-2px);
-
-        }
-
-        button:active {
-
-            transform: translateY(0);
-
-        }
-
-        .generate-button {
-
-            background: #bd93f9;
-
-            color: #282a36;
-
-        }
-
-        .generate-button:hover {
-
-            opacity: 0.9;
-
-        }
-
-        .clear-button {
-
-            background: #6272a4;
-
-            color: #f8f8f2;
-
-        }
-
-        .clear-button:hover {
-
-            opacity: 0.9;
-
-        }
-
-        /* =====================================================
-           RESULTS
-           ===================================================== */
-
-        .result {
-
-            display: none;
-
-        }
-
-        .result.visible {
-
-            display: block;
-
-        }
-
-        .result-box {
-
-            margin-bottom: 20px;
-
-        }
-
-        .label {
-
-            display: block;
-
-            font-size: 12px;
-
-            font-weight: bold;
-
-            color: #bd93f9;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            margin-bottom: 8px;
-
-        }
-
-        .value-box {
-
-            border-radius: 10px;
-
-            padding: 18px 20px;
-
-            background: #282a36;
-
-            border: 1px solid #6272a4;
-
-        }
-
-        .word {
-
-            font-size: 21px;
-
-            font-weight: bold;
-
-            color: #ff79c6;
-
-        }
-
-        .grammar {
-
-            font-size: 21px;
-
-            font-weight: bold;
-
-            color: #f8f8f2;
-
-        }
-
-        .example {
-
-            margin-top: 10px;
-
-            font-size: 14px;
-
-            font-style: italic;
-
-            color: #f8f8f2;
-
-            opacity: 0.85;
-
-            line-height: 1.5;
-
-        }
-
-        .level {
-
-            margin-top: 7px;
-
-            font-size: 13px;
-
-            color: #8be9fd;
-
-        }
-
-        .context {
-
-            font-size: 21px;
-
-            font-weight: bold;
-
-            color: #50fa7b;
-
-        }
-
-        .context-description {
-
-            margin-top: 7px;
-
-            font-size: 13px;
-
-            color: #8be9fd;
-
-        }
-
-        .instruction {
-
-            margin-top: 25px;
-
-            padding: 18px 20px;
-
-            background: #383a59;
-
-            border-left: 4px solid #ff79c6;
-
-            border-radius: 8px;
-
-            line-height: 1.6;
-
-            font-size: 15px;
-
-            color: #f8f8f2;
-
-        }
-
-        .instruction strong {
-
-            color: #ff79c6;
-
-        }
-
-        /* =====================================================
-           COUNTER
-           ===================================================== */
-
-        .counter {
-
-            text-align: center;
-
-            margin-top: 30px;
-
-            color: #6272a4;
-
-            font-size: 13px;
-
-        }
-
-        .counter strong {
-
-            color: #bd93f9;
-
-        }
-
-        /* =====================================================
-           EMPTY MESSAGE
-           ===================================================== */
-
-        .empty-message {
-
-            text-align: center;
-
-            color: #6272a4;
-
-            font-size: 15px;
-
-            padding: 20px;
-
-        }
-
-        .empty-message strong {
-
-            color: #bd93f9;
-
-        }
-
-        /* =====================================================
-           ERROR MESSAGE
-           ===================================================== */
-
-        .error-message {
-
-            display: none;
-
-            margin-bottom: 20px;
-
-            padding: 12px 15px;
-
-            border-radius: 8px;
-
-            background: #383a59;
-
-            border-left: 4px solid #ff5555;
-
-            color: #ffb8b8;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
-        }
-
-        .error-message.visible {
-
-            display: block;
-
-        }
-
-        /* =====================================================
-           MOBILE
-           ===================================================== */
-
-        @media (max-width: 600px) {
-
-            .card {
-
-                padding: 25px 20px;
-
-            }
-
-            .header h1 {
-
-                font-size: 25px;
-
-            }
-
-            .button-container {
-
-                flex-direction: column;
-
-            }
-
-            button {
-
-                width: 100%;
-
-            }
-
-            .level-header {
-
-                padding: 13px 12px;
-
-            }
-
-            .level-name {
-
-                font-size: 13px;
-
-            }
-
-            .level-count {
-
-                font-size: 10px;
-
-            }
-
-        }
-
-    </style>
-
+    <link rel="icon" type="image/png" href="usa.png">
+    <link rel="stylesheet" href="styles.css">
+    <title>Teacher Dilo 🧔🏻‍♂️</title>
 </head>
 
 
 <body>
 
 
-<div class="container">
+    <div class="container">
 
 
-    <div class="card">
+        <div class="card">
 
 
-        <!-- =================================================
+            <!-- =================================================
              HEADER
              ================================================= -->
 
-        <div class="header">
+            <div class="header">
 
-            <h1>🇬🇧 English Sentence Trainer</h1>
+                <h1>🇺🇸 Teacher Dilo's Sentence Builder 🧔🏻‍♂️</h1>
 
-            <p>
+                <p>
+                    Want to practice new vocabulary and grammar at the same time?
 
-                Paste your sentence below.
+                </p>
 
-                The trainer will randomly select a word
+            </div>
+            <!-- =================================================
+             QUICK HOW IT WORKS
+             ================================================= -->
 
-                and give you a grammar structure and context
+            <div class="quick-how-it-works">
 
-                for your new sentence.
+                <h2>How it works</h2>
 
-            </p>
+                <div class="quick-steps">
 
-        </div>
+                    <div class="quick-step">
+                        <span class="quick-step-number">1</span>
+                        <span class="quick-step-title">Choose words</span>
+                        <span class="quick-step-description">Add words or text to practice with</span>
+                    </div>
+
+                    <div class="quick-arrow">→</div>
+
+                    <div class="quick-step">
+                        <span class="quick-step-number">2</span>
+                        <span class="quick-step-title">Choose grammar</span>
+                        <span class="quick-step-description">Select grammar topics</span>
+                    </div>
+
+                    <div class="quick-arrow">→</div>
+
+                    <div class="quick-step">
+                        <span class="quick-step-number">3</span>
+                        <span class="quick-step-title">Generate</span>
+                        <span class="quick-step-description">Get your exercise</span>
+                    </div>
+
+                    <div class="quick-arrow">→</div>
+
+                    <div class="quick-step">
+                        <span class="quick-step-number">4</span>
+                        <span class="quick-step-title">Write</span>
+                        <span class="quick-step-description">Create your sentence</span>
+                    </div>
+
+                    <div class="quick-arrow">→</div>
+
+                    <div class="quick-step">
+                        <span class="quick-step-number">5</span>
+                        <span class="quick-step-title">Get feedback</span>
+                        <span class="quick-step-description">Talk to Teacher Dilo</span>
+                    </div>
+
+                </div>
+
+            </div>
 
 
-        <!-- =================================================
+            <!-- =================================================
              SOURCE TEXT
              ================================================= -->
 
-        <div class="input-section">
+            <div class="input-section">
 
-            <label
-                class="input-label"
-                for="sourceText">
+                <label class="input-label" for="sourceText">
 
-                Sentence
+                    Sentence
 
-            </label>
+                </label>
 
-            <textarea
-                id="sourceText"
-                placeholder="Paste your sentence here..."></textarea>
+                <textarea id="sourceText" placeholder="Paste your words or text here..."></textarea>
 
-        </div>
+            </div>
 
 
-        <!-- =================================================
+            <!-- =================================================
              GRAMMAR TOPIC SELECTION
              ================================================= -->
 
-        <div class="grammar-section">
+            <div class="grammar-section">
 
 
-            <div class="grammar-section-header">
+                <div class="grammar-section-header">
 
-                <span class="grammar-section-title">
+                    <span class="grammar-section-title">
 
-                    Grammar Topics
+                        Grammar Topics
 
-                </span>
+                    </span>
 
-                <span
-                    id="totalSelected"
-                    class="grammar-selection-info">
+                    <span id="totalSelected" class="grammar-selection-info">
 
-                    0 selected
+                        0 selected
 
-                </span>
+                    </span>
 
-            </div>
+                </div>
 
 
-            <!-- =============================================
+                <!-- =============================================
                  LEVEL 1
                  ============================================= -->
 
-            <div
-                class="level-box open"
-                id="level-1">
+                <div class="level-box open" id="level-1">
 
 
-                <div
-                    class="level-header"
-                    onclick="toggleLevel('level-1')">
+                    <div class="level-header" onclick="toggleLevel('level-1')">
 
 
-                    <div class="level-header-left">
+                        <div class="level-header-left">
 
-                        <span class="level-arrow">
+                            <span class="level-arrow">
 
-                            ▶
+                                ▶
+
+                            </span>
+
+                            <span class="level-name">
+
+                                🟢 Level 1 — Essentials
+
+                            </span>
+
+                        </div>
+
+
+                        <span class="level-count" id="count-level-1">
+
+                            0 selected
 
                         </span>
 
-                        <span class="level-name">
-
-                            🟢 Level 1 — Essentials
-
-                        </span>
 
                     </div>
 
 
-                    <span
-                        class="level-count"
-                        id="count-level-1">
+                    <div class="level-content">
 
-                        0 selected
 
-                    </span>
+                        <div class="level-actions">
 
+                            <button type="button" class="level-action" onclick="selectAllInLevel(event, 'level-1')">
+
+                                Select all
+
+                            </button>
+
+                            <button type="button" class="level-action" onclick="clearLevel(event, 'level-1')">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="topic-list" id="topics-level-1">
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
 
-                <div class="level-content">
-
-
-                    <div class="level-actions">
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="selectAllInLevel(event, 'level-1')">
-
-                            Select all
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="clearLevel(event, 'level-1')">
-
-                            Clear
-
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="topic-list"
-                        id="topics-level-1">
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================================
+                <!-- =============================================
                  LEVEL 2
                  ============================================= -->
 
-            <div
-                class="level-box"
-                id="level-2">
+                <div class="level-box" id="level-2">
 
 
-                <div
-                    class="level-header"
-                    onclick="toggleLevel('level-2')">
+                    <div class="level-header" onclick="toggleLevel('level-2')">
 
 
-                    <div class="level-header-left">
+                        <div class="level-header-left">
 
-                        <span class="level-arrow">
+                            <span class="level-arrow">
 
-                            ▶
+                                ▶
+
+                            </span>
+
+                            <span class="level-name">
+
+                                🟡 Level 2 — Very important for conversation
+
+                            </span>
+
+                        </div>
+
+
+                        <span class="level-count" id="count-level-2">
+
+                            0 selected
 
                         </span>
 
-                        <span class="level-name">
-
-                            🟡 Level 2 — Very important for conversation
-
-                        </span>
 
                     </div>
 
 
-                    <span
-                        class="level-count"
-                        id="count-level-2">
+                    <div class="level-content">
 
-                        0 selected
 
-                    </span>
+                        <div class="level-actions">
 
+                            <button type="button" class="level-action" onclick="selectAllInLevel(event, 'level-2')">
+
+                                Select all
+
+                            </button>
+
+                            <button type="button" class="level-action" onclick="clearLevel(event, 'level-2')">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="topic-list" id="topics-level-2">
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
 
-                <div class="level-content">
-
-
-                    <div class="level-actions">
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="selectAllInLevel(event, 'level-2')">
-
-                            Select all
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="clearLevel(event, 'level-2')">
-
-                            Clear
-
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="topic-list"
-                        id="topics-level-2">
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================================
+                <!-- =============================================
                  LEVEL 3
                  ============================================= -->
 
-            <div
-                class="level-box"
-                id="level-3">
+                <div class="level-box" id="level-3">
 
 
-                <div
-                    class="level-header"
-                    onclick="toggleLevel('level-3')">
+                    <div class="level-header" onclick="toggleLevel('level-3')">
 
 
-                    <div class="level-header-left">
+                        <div class="level-header-left">
 
-                        <span class="level-arrow">
+                            <span class="level-arrow">
 
-                            ▶
+                                ▶
+
+                            </span>
+
+                            <span class="level-name">
+
+                                🟠 Level 3 — Challenging structures
+
+                            </span>
+
+                        </div>
+
+
+                        <span class="level-count" id="count-level-3">
+
+                            0 selected
 
                         </span>
 
-                        <span class="level-name">
-
-                            🟠 Level 3 — Challenging structures
-
-                        </span>
 
                     </div>
 
 
-                    <span
-                        class="level-count"
-                        id="count-level-3">
+                    <div class="level-content">
 
-                        0 selected
 
-                    </span>
+                        <div class="level-actions">
 
+                            <button type="button" class="level-action" onclick="selectAllInLevel(event, 'level-3')">
+
+                                Select all
+
+                            </button>
+
+                            <button type="button" class="level-action" onclick="clearLevel(event, 'level-3')">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="topic-list" id="topics-level-3">
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
 
-                <div class="level-content">
-
-
-                    <div class="level-actions">
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="selectAllInLevel(event, 'level-3')">
-
-                            Select all
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="clearLevel(event, 'level-3')">
-
-                            Clear
-
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="topic-list"
-                        id="topics-level-3">
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================================
+                <!-- =============================================
                  LEVEL 4
                  ============================================= -->
 
-            <div
-                class="level-box"
-                id="level-4">
+                <div class="level-box" id="level-4">
 
 
-                <div
-                    class="level-header"
-                    onclick="toggleLevel('level-4')">
+                    <div class="level-header" onclick="toggleLevel('level-4')">
 
 
-                    <div class="level-header-left">
+                        <div class="level-header-left">
 
-                        <span class="level-arrow">
+                            <span class="level-arrow">
 
-                            ▶
+                                ▶
+
+                            </span>
+
+                            <span class="level-name">
+
+                                🔵 Level 4 — Advanced structures
+
+                            </span>
+
+                        </div>
+
+
+                        <span class="level-count" id="count-level-4">
+
+                            0 selected
 
                         </span>
 
-                        <span class="level-name">
-
-                            🔵 Level 4 — Advanced structures
-
-                        </span>
 
                     </div>
 
 
-                    <span
-                        class="level-count"
-                        id="count-level-4">
+                    <div class="level-content">
 
-                        0 selected
 
-                    </span>
+                        <div class="level-actions">
 
+                            <button type="button" class="level-action" onclick="selectAllInLevel(event, 'level-4')">
+
+                                Select all
+
+                            </button>
+
+                            <button type="button" class="level-action" onclick="clearLevel(event, 'level-4')">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="topic-list" id="topics-level-4">
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
-
-                <div class="level-content">
-
-
-                    <div class="level-actions">
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="selectAllInLevel(event, 'level-4')">
-
-                            Select all
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="level-action"
-                            onclick="clearLevel(event, 'level-4')">
-
-                            Clear
-
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="topic-list"
-                        id="topics-level-4">
-
-                    </div>
-
-
-                </div>
 
             </div>
 
 
-        </div>
-
-
-        <!-- =================================================
+            <!-- =================================================
              ERROR MESSAGE
              ================================================= -->
 
-        <div
-            id="errorMessage"
-            class="error-message">
+            <div id="errorMessage" class="error-message">
 
-            Please select at least one grammar topic before generating an exercise.
+                Please select at least one grammar topic before generating an exercise.
 
-        </div>
+            </div>
 
 
-        <!-- =================================================
+            <!-- =================================================
              BUTTONS
              ================================================= -->
 
-        <div class="button-container">
+            <div class="button-container">
 
-            <button
-                class="generate-button"
-                onclick="generateExercise()">
+                <button class="generate-button" onclick="generateExercise()">
 
-                🎲 Generate Exercise
+                    🎲 Generate Exercise
 
-            </button>
+                </button>
 
 
-            <button
-                class="clear-button"
-                onclick="clearExercise()">
+                <button class="clear-button" onclick="clearExercise()">
 
-                Clear Result
+                    Clear Result
 
-            </button>
+                </button>
 
-        </div>
+            </div>
 
 
-        <!-- =================================================
+            <!-- =================================================
              RESULTS
              ================================================= -->
 
-        <div
-            id="result"
-            class="result">
+            <div id="result" class="result">
+
+                <!-- Instruction -->
+
+                <div class="instruction">
+
+                    <strong>Your task:</strong>
+
+                    <br>
+
+                    Create a new sentence using the word and grammar shown below, based on the selected context.
+
+                </div>
+
+                <!-- Selected Word -->
+
+                <div class="result-box">
+
+                    <span class="label">
+
+                        Selected Word
+
+                    </span>
+
+                    <div class="value-box">
+
+                        <div id="selectedWord" class="word">
+
+                        </div>
+
+                    </div>
+
+                </div>
 
 
-            <!-- Selected Word -->
+                <!-- Grammar -->
 
-            <div class="result-box">
+                <div class="result-box">
 
-                <span class="label">
+                    <span class="label">
 
-                    Selected Word
+                        Grammar Structure
 
-                </span>
+                    </span>
 
-                <div class="value-box">
+                    <div class="value-box">
 
-                    <div
-                        id="selectedWord"
-                        class="word">
+                        <div id="grammarTopic" class="grammar">
+
+                        </div>
+
+
+                        <div id="grammarLevel" class="level">
+
+                        </div>
+
+
+                        <div id="grammarExample" class="example">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Context -->
+
+                <div class="result-box">
+
+                    <span class="label">
+
+                        Context
+
+                    </span>
+
+                    <div class="value-box">
+
+                        <div id="context" class="context">
+
+                        </div>
+
+
+                        <div id="contextDescription" class="context-description">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="result-box">
+
+                    <div class="input-section">
+
+                        <label class="input-label" for="sourceText">
+
+                            Sentence
+
+                        </label>
+
+                        <textarea id="createdSentence" placeholder="Write your sentence here..."></textarea>
 
                     </div>
 
@@ -1252,696 +546,635 @@
             </div>
 
 
-            <!-- Grammar -->
-
-            <div class="result-box">
-
-                <span class="label">
-
-                    Grammar
-
-                </span>
-
-                <div class="value-box">
-
-                    <div
-                        id="grammarTopic"
-                        class="grammar">
-
-                    </div>
-
-
-                    <div
-                        id="grammarLevel"
-                        class="level">
-
-                    </div>
-
-
-                    <div
-                        id="grammarExample"
-                        class="example">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Context -->
-
-            <div class="result-box">
-
-                <span class="label">
-
-                    Context
-
-                </span>
-
-                <div class="value-box">
-
-                    <div
-                        id="context"
-                        class="context">
-
-                    </div>
-
-
-                    <div
-                        id="contextDescription"
-                        class="context-description">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Instruction -->
-
-            <div class="instruction">
-
-                <strong>Your task:</strong>
-
-                <br>
-
-                Create a new sentence using the selected word,
-
-                the grammar structure above, and the selected context.
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
+            <!-- =================================================
              INITIAL MESSAGE
              ================================================= -->
 
-        <div
-            id="emptyMessage"
-            class="empty-message">
+            <div id="emptyMessage" class="empty-message">
 
-            Select your grammar topics and click
+                Select your grammar topics and click
 
-            <strong>Generate Exercise</strong>
+                <strong>Generate Exercise</strong>
 
-            to start.
+                to start.
 
-        </div>
+            </div>
 
 
-        <!-- =================================================
+            <!-- =================================================
              COUNTER
              ================================================= -->
 
-        <div class="counter">
+            <div class="counter">
 
-            Exercises generated:
+                Exercises generated:
 
-            <strong id="counter">0</strong>
+                <strong id="counter">0</strong>
+
+            </div>
+            <div class="teacher-contact">
+                <p><strong>Want personalized feedback?</strong><br>
+                    Contact Teacher Dilo:</p>
+
+                <div class="social-links">
+
+                    <a class="social-link" href="https://www.instagram.com/teacherdilo?igsi=NXBzZzc3Ymc0c254"
+                        target="_blank" rel="noopener noreferrer" aria-label="Teacher Dilo on Instagram"
+                        title="Instagram">
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <title>Instagram</title>
+                            <path fill="#bd93f9"
+                                d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" />
+                        </svg>
+                    </a>
+
+                    <a class="social-link" href="https://wa.me/555181405668" target="_blank" rel="noopener noreferrer"
+                        aria-label="Teacher Dilo on WhatsApp" title="WhatsApp">
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <title>WhatsApp</title>
+                            <path fill="#bd93f9"
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
 
         </div>
 
-
     </div>
 
-</div>
 
 
+    <script>
+
+
+        // =========================================================
+        // CONTEXTS
+        // =========================================================
+
+        const contexts = [
+
+            {
+                name: "Daily life",
+                description: "Everyday situations"
+            },
+
+            {
+                name: "Work",
+                description: "Professional situations"
+            },
+
+            {
+                name: "Travel",
+                description: "Experiences and plans"
+            },
+
+            {
+                name: "Relationships",
+                description: "People and interactions"
+            },
+
+            {
+                name: "Learning",
+                description: "Study and progress"
+            },
+
+            {
+                name: "Technology",
+                description: "Technology"
+            },
+
+            {
+                name: "Money",
+                description: "Financial decisions"
+            },
+
+            {
+                name: "Health",
+                description: "Habits and situations"
+            },
+
+            {
+                name: "Entertainment",
+                description: "Movies, games, and books"
+            },
+
+            {
+                name: "Problems",
+                description: "Problems and solutions"
+            },
+
+            {
+                name: "Decisions",
+                description: "Choices"
+            },
+
+            {
+                name: "Plans",
+                description: "Future plans"
+            },
+
+            {
+                name: "Experiences",
+                description: "Things that happened"
+            },
+
+            {
+                name: "Memories",
+                description: "The past"
+            },
+
+            {
+                name: "Opinions",
+                description: "Opinions"
+            },
+
+            {
+                name: "Hypothetical situations",
+                description: "Imaginary situations"
+            },
+
+            {
+                name: "Advice",
+                description: "Recommendations"
+            },
+
+            {
+                name: "Requests",
+                description: "Requests"
+            },
+
+            {
+                name: "Complaints",
+                description: "Complaints"
+            },
+
+            {
+                name: "Comparisons",
+                description: "Comparing things"
+            },
+
+            {
+                name: "Goals",
+                description: "Objectives"
+            },
+
+            {
+                name: "Changes",
+                description: "Changes"
+            },
+
+            {
+                name: "Mistakes",
+                description: "Mistakes and consequences"
+            },
+
+            {
+                name: "Unexpected events",
+                description: "Unexpected events"
+            }
 
-<script>
-
-
-    // =========================================================
-    // CONTEXTS
-    // =========================================================
-
-    const contexts = [
-
-        {
-            name: "Daily life",
-            description: "Everyday situations"
-        },
-
-        {
-            name: "Work",
-            description: "Professional situations"
-        },
-
-        {
-            name: "Travel",
-            description: "Experiences and plans"
-        },
-
-        {
-            name: "Relationships",
-            description: "People and interactions"
-        },
-
-        {
-            name: "Learning",
-            description: "Study and progress"
-        },
-
-        {
-            name: "Technology",
-            description: "Technology"
-        },
-
-        {
-            name: "Money",
-            description: "Financial decisions"
-        },
-
-        {
-            name: "Health",
-            description: "Habits and situations"
-        },
-
-        {
-            name: "Entertainment",
-            description: "Movies, games, and books"
-        },
-
-        {
-            name: "Problems",
-            description: "Problems and solutions"
-        },
-
-        {
-            name: "Decisions",
-            description: "Choices"
-        },
-
-        {
-            name: "Plans",
-            description: "Future plans"
-        },
-
-        {
-            name: "Experiences",
-            description: "Things that happened"
-        },
-
-        {
-            name: "Memories",
-            description: "The past"
-        },
-
-        {
-            name: "Opinions",
-            description: "Opinions"
-        },
-
-        {
-            name: "Hypothetical situations",
-            description: "Imaginary situations"
-        },
-
-        {
-            name: "Advice",
-            description: "Recommendations"
-        },
-
-        {
-            name: "Requests",
-            description: "Requests"
-        },
-
-        {
-            name: "Complaints",
-            description: "Complaints"
-        },
-
-        {
-            name: "Comparisons",
-            description: "Comparing things"
-        },
-
-        {
-            name: "Goals",
-            description: "Objectives"
-        },
-
-        {
-            name: "Changes",
-            description: "Changes"
-        },
-
-        {
-            name: "Mistakes",
-            description: "Mistakes and consequences"
-        },
-
-        {
-            name: "Unexpected events",
-            description: "Unexpected events"
-        }
-
-    ];
-
-
-    // =========================================================
-    // GRAMMAR LEVELS
-    // =========================================================
-
-    const grammarLevels = {
-
-        "Level 1 — Essentials": {
-
-            weight: 50,
-
-            topics: [
-
-                {
-                    name: "Present Simple",
-                    example: "I work from home."
-                },
-
-                {
-                    name: "Present Continuous",
-                    example: "I am working right now."
-                },
-
-                {
-                    name: "Past Simple",
-                    example: "I worked yesterday."
-                },
-
-                {
-                    name: "Past Continuous",
-                    example: "I was working when she called."
-                },
-
-                {
-                    name: "Future — will",
-                    example: "I will call you tomorrow."
-                },
-
-                {
-                    name: "Future — going to",
-                    example: "I am going to study tonight."
-                },
-
-                {
-                    name: "Present Perfect",
-                    example: "I have worked here for two years."
-                },
-
-                {
-                    name: "Present Perfect Continuous",
-                    example: "I have been studying English for months."
-                },
-
-                {
-                    name: "Past Perfect",
-                    example: "I had already left when he arrived."
-                },
-
-                {
-                    name: "There is / There are",
-                    example: "There are many people here."
-                },
-
-                {
-                    name: "Modal verbs — can/could",
-                    example: "I could help you tomorrow."
-                },
-
-                {
-                    name: "Modal verbs — should/must/have to",
-                    example: "You should study more."
-                },
-
-                {
-                    name: "Comparatives",
-                    example: "This one is better than that one."
-                },
-
-                {
-                    name: "Superlatives",
-                    example: "This is the best option."
-                },
-
-                {
-                    name: "Questions",
-                    example: "Have you ever been there?"
-                },
-
-                {
-                    name: "Negative sentences",
-                    example: "I don't understand this."
-                },
-
-                {
-                    name: "Imperatives",
-                    example: "Take your time."
-                },
-
-                {
-                    name: "Adverbs of frequency",
-                    example: "I usually work at night."
-                }
-
-            ]
-
-        },
-
-
-        "Level 2 — Very important for conversation": {
-
-            weight: 30,
-
-            topics: [
-
-                {
-                    name: "Used to",
-                    example: "I used to live in Japan."
-                },
-
-                {
-                    name: "Would — past habits",
-                    example: "We would go there every Sunday."
-                },
-
-                {
-                    name: "Present Perfect vs Past Simple",
-                    example: "I have seen that movie. / I saw it last year."
-                },
-
-                {
-                    name: "Since / For",
-                    example: "I have lived here for three years."
-                },
-
-                {
-                    name: "Already / Yet / Just",
-                    example: "I have already finished it."
-                },
-
-                {
-                    name: "Ever / Never",
-                    example: "Have you ever tried it?"
-                },
-
-                {
-                    name: "First Conditional",
-                    example: "If it rains, I will stay home."
-                },
-
-                {
-                    name: "Second Conditional",
-                    example: "If I had more money, I would travel."
-                },
-
-                {
-                    name: "First vs Second Conditional",
-                    example: "If I study... / If I studied..."
-                },
-
-                {
-                    name: "Relative clauses",
-                    example: "The man who lives there is my friend."
-                },
-
-                {
-                    name: "Passive voice",
-                    example: "The car was repaired yesterday."
-                },
-
-                {
-                    name: "Reported speech",
-                    example: "She said that she was tired."
-                },
-
-                {
-                    name: "Gerund (-ing)",
-                    example: "I enjoy learning English."
-                },
-
-                {
-                    name: "Infinitive (to + verb)",
-                    example: "I want to learn English."
-                },
-
-                {
-                    name: "Gerund vs Infinitive",
-                    example: "I stopped smoking. / I stopped to smoke."
-                },
-
-                {
-                    name: "Phrasal verbs",
-                    example: "I need to find out what happened."
-                },
-
-                {
-                    name: "Prepositions",
-                    example: "I'm interested in learning English."
-                },
-
-                {
-                    name: "Articles — a/an/the",
-                    example: "I bought a book. The book was expensive."
-                }
-
-            ]
-
-        },
-
-
-        "Level 3 — Challenging structures": {
-
-            weight: 15,
-
-            topics: [
-
-                {
-                    name: "Present Perfect Continuous",
-                    example: "I've been working all day."
-                },
-
-                {
-                    name: "Past Perfect Continuous",
-                    example: "I'd been waiting for an hour."
-                },
-
-                {
-                    name: "Future Continuous",
-                    example: "I'll be working tomorrow afternoon."
-                },
-
-                {
-                    name: "Future Perfect",
-                    example: "I'll have finished it by Friday."
-                },
-
-                {
-                    name: "Third Conditional",
-                    example: "If I had studied, I would have passed."
-                },
-
-                {
-                    name: "Mixed Conditionals",
-                    example: "If I had studied, I would be working there now."
-                },
-
-                {
-                    name: "Wish — present",
-                    example: "I wish I had more time."
-                },
-
-                {
-                    name: "Wish — past",
-                    example: "I wish I had studied harder."
-                },
-
-                {
-                    name: "Would rather",
-                    example: "I'd rather stay home."
-                },
-
-                {
-                    name: "Had better",
-                    example: "You'd better leave now."
-                },
-
-                {
-                    name: "Question tags",
-                    example: "You're coming, aren't you?"
-                },
-
-                {
-                    name: "Indirect questions",
-                    example: "Do you know where he lives?"
-                },
-
-                {
-                    name: "Causative — have/get something done",
-                    example: "I had my car repaired."
-                },
-
-                {
-                    name: "Modal perfect",
-                    example: "You should have told me."
-                },
-
-                {
-                    name: "Could have / would have / might have",
-                    example: "I could have helped you."
-                },
-
-                {
-                    name: "Negative questions",
-                    example: "Didn't you see him?"
-                },
-
-                {
-                    name: "So / Neither",
-                    example: "I like coffee. So do I."
-                },
-
-                {
-                    name: "Too / Enough",
-                    example: "It's too expensive. / It's cheap enough."
-                },
-
-                {
-                    name: "Both / Either / Neither",
-                    example: "Neither option is good."
-                }
-
-            ]
-
-        },
-
-
-        "Level 4 — Advanced structures": {
-
-            weight: 5,
-
-            topics: [
-
-                {
-                    name: "Future in the past",
-                    example: "I knew I would need more time."
-                },
-
-                {
-                    name: "Past habits",
-                    example: "I would play football every weekend."
-                },
-
-                {
-                    name: "Participle clauses",
-                    example: "Having finished the work, I went home."
-                },
-
-                {
-                    name: "Inversion",
-                    example: "Never have I seen anything like this."
-                },
-
-                {
-                    name: "Cleft sentences",
-                    example: "What I need is more time."
-                },
-
-                {
-                    name: "Emphasis with do",
-                    example: "I do understand what you mean."
-                },
-
-                {
-                    name: "Advanced relative clauses",
-                    example: "The company for which I worked..."
-                },
-
-                {
-                    name: "Reduced relative clauses",
-                    example: "The man standing there is my boss."
-                },
-
-                {
-                    name: "Advanced passive",
-                    example: "He is believed to be one of the best developers."
-                },
-
-                {
-                    name: "Conditionals with unless",
-                    example: "I won't go unless you come with me."
-                },
-
-                {
-                    name: "As long as / provided that",
-                    example: "You can stay as long as you're quiet."
-                },
-
-                {
-                    name: "Although / even though / despite",
-                    example: "Even though it was late, I continued working."
-                },
-
-                {
-                    name: "Would have + past participle",
-                    example: "I would have gone if I had known."
-                },
-
-                {
-                    name: "As if / as though",
-                    example: "He talks as if he knew everything."
-                },
-
-                {
-                    name: "Not only... but also",
-                    example: "She is not only smart but also hardworking."
-                }
-
-            ]
-
-        }
-
-    };
-
-
-    // =========================================================
-    // COUNTER
-    // =========================================================
-
-    let exerciseCount = 0;
-
-
-    // =========================================================
-    // GENERATE GRAMMAR TOPIC CHECKBOXES
-    // =========================================================
-
-    function renderGrammarTopics() {
-
-        const levelIds = [
-            "level-1",
-            "level-2",
-            "level-3",
-            "level-4"
         ];
 
-        const levels = Object.entries(grammarLevels);
 
-        levels.forEach(([levelName, level], index) => {
+        // =========================================================
+        // GRAMMAR LEVELS
+        // =========================================================
 
-            const container = document.getElementById(
-                `topics-${levelIds[index]}`
-            );
+        const grammarLevels = {
 
-            level.topics.forEach((topic, topicIndex) => {
+            "Level 1 — Essentials": {
 
-                const label = document.createElement("label");
+                weight: 50,
 
-                label.className = "topic-item";
+                topics: [
 
-                label.innerHTML = `
+                    {
+                        name: "Present Simple",
+                        example: "I work from home."
+                    },
+
+                    {
+                        name: "Present Continuous",
+                        example: "I am working right now."
+                    },
+
+                    {
+                        name: "Past Simple",
+                        example: "I worked yesterday."
+                    },
+
+                    {
+                        name: "Past Continuous",
+                        example: "I was working when she called."
+                    },
+
+                    {
+                        name: "Future — will",
+                        example: "I will call you tomorrow."
+                    },
+
+                    {
+                        name: "Future — going to",
+                        example: "I am going to study tonight."
+                    },
+
+                    {
+                        name: "Present Perfect",
+                        example: "I have worked here for two years."
+                    },
+
+                    {
+                        name: "Present Perfect Continuous",
+                        example: "I have been studying English for months."
+                    },
+
+                    {
+                        name: "Past Perfect",
+                        example: "I had already left when he arrived."
+                    },
+
+                    {
+                        name: "There is / There are",
+                        example: "There are many people here."
+                    },
+
+                    {
+                        name: "Modal verbs — can/could",
+                        example: "I could help you tomorrow."
+                    },
+
+                    {
+                        name: "Modal verbs — should/must/have to",
+                        example: "You should study more."
+                    },
+
+                    {
+                        name: "Comparatives",
+                        example: "This one is better than that one."
+                    },
+
+                    {
+                        name: "Superlatives",
+                        example: "This is the best option."
+                    },
+
+                    {
+                        name: "Questions",
+                        example: "Have you ever been there?"
+                    },
+
+                    {
+                        name: "Negative sentences",
+                        example: "I don't understand this."
+                    },
+
+                    {
+                        name: "Imperatives",
+                        example: "Take your time."
+                    },
+
+                    {
+                        name: "Adverbs of frequency",
+                        example: "I usually work at night."
+                    }
+
+                ]
+
+            },
+
+
+            "Level 2 — Very important for conversation": {
+
+                weight: 30,
+
+                topics: [
+
+                    {
+                        name: "Used to",
+                        example: "I used to live in Japan."
+                    },
+
+                    {
+                        name: "Would — past habits",
+                        example: "We would go there every Sunday."
+                    },
+
+                    {
+                        name: "Present Perfect vs Past Simple",
+                        example: "I have seen that movie. / I saw it last year."
+                    },
+
+                    {
+                        name: "Since / For",
+                        example: "I have lived here for three years."
+                    },
+
+                    {
+                        name: "Already / Yet / Just",
+                        example: "I have already finished it."
+                    },
+
+                    {
+                        name: "Ever / Never",
+                        example: "Have you ever tried it?"
+                    },
+
+                    {
+                        name: "First Conditional",
+                        example: "If it rains, I will stay home."
+                    },
+
+                    {
+                        name: "Second Conditional",
+                        example: "If I had more money, I would travel."
+                    },
+
+                    {
+                        name: "First vs Second Conditional",
+                        example: "If I study... / If I studied..."
+                    },
+
+                    {
+                        name: "Relative clauses",
+                        example: "The man who lives there is my friend."
+                    },
+
+                    {
+                        name: "Passive voice",
+                        example: "The car was repaired yesterday."
+                    },
+
+                    {
+                        name: "Reported speech",
+                        example: "She said that she was tired."
+                    },
+
+                    {
+                        name: "Gerund (-ing)",
+                        example: "I enjoy learning English."
+                    },
+
+                    {
+                        name: "Infinitive (to + verb)",
+                        example: "I want to learn English."
+                    },
+
+                    {
+                        name: "Gerund vs Infinitive",
+                        example: "I stopped smoking. / I stopped to smoke."
+                    },
+
+                    {
+                        name: "Phrasal verbs",
+                        example: "I need to find out what happened."
+                    },
+
+                    {
+                        name: "Prepositions",
+                        example: "I'm interested in learning English."
+                    },
+
+                    {
+                        name: "Articles — a/an/the",
+                        example: "I bought a book. The book was expensive."
+                    }
+
+                ]
+
+            },
+
+
+            "Level 3 — Challenging structures": {
+
+                weight: 15,
+
+                topics: [
+
+                    {
+                        name: "Present Perfect Continuous",
+                        example: "I've been working all day."
+                    },
+
+                    {
+                        name: "Past Perfect Continuous",
+                        example: "I'd been waiting for an hour."
+                    },
+
+                    {
+                        name: "Future Continuous",
+                        example: "I'll be working tomorrow afternoon."
+                    },
+
+                    {
+                        name: "Future Perfect",
+                        example: "I'll have finished it by Friday."
+                    },
+
+                    {
+                        name: "Third Conditional",
+                        example: "If I had studied, I would have passed."
+                    },
+
+                    {
+                        name: "Mixed Conditionals",
+                        example: "If I had studied, I would be working there now."
+                    },
+
+                    {
+                        name: "Wish — present",
+                        example: "I wish I had more time."
+                    },
+
+                    {
+                        name: "Wish — past",
+                        example: "I wish I had studied harder."
+                    },
+
+                    {
+                        name: "Would rather",
+                        example: "I'd rather stay home."
+                    },
+
+                    {
+                        name: "Had better",
+                        example: "You'd better leave now."
+                    },
+
+                    {
+                        name: "Question tags",
+                        example: "You're coming, aren't you?"
+                    },
+
+                    {
+                        name: "Indirect questions",
+                        example: "Do you know where he lives?"
+                    },
+
+                    {
+                        name: "Causative — have/get something done",
+                        example: "I had my car repaired."
+                    },
+
+                    {
+                        name: "Modal perfect",
+                        example: "You should have told me."
+                    },
+
+                    {
+                        name: "Could have / would have / might have",
+                        example: "I could have helped you."
+                    },
+
+                    {
+                        name: "Negative questions",
+                        example: "Didn't you see him?"
+                    },
+
+                    {
+                        name: "So / Neither",
+                        example: "I like coffee. So do I."
+                    },
+
+                    {
+                        name: "Too / Enough",
+                        example: "It's too expensive. / It's cheap enough."
+                    },
+
+                    {
+                        name: "Both / Either / Neither",
+                        example: "Neither option is good."
+                    }
+
+                ]
+
+            },
+
+
+            "Level 4 — Advanced structures": {
+
+                weight: 5,
+
+                topics: [
+
+                    {
+                        name: "Future in the past",
+                        example: "I knew I would need more time."
+                    },
+
+                    {
+                        name: "Past habits",
+                        example: "I would play football every weekend."
+                    },
+
+                    {
+                        name: "Participle clauses",
+                        example: "Having finished the work, I went home."
+                    },
+
+                    {
+                        name: "Inversion",
+                        example: "Never have I seen anything like this."
+                    },
+
+                    {
+                        name: "Cleft sentences",
+                        example: "What I need is more time."
+                    },
+
+                    {
+                        name: "Emphasis with do",
+                        example: "I do understand what you mean."
+                    },
+
+                    {
+                        name: "Advanced relative clauses",
+                        example: "The company for which I worked..."
+                    },
+
+                    {
+                        name: "Reduced relative clauses",
+                        example: "The man standing there is my boss."
+                    },
+
+                    {
+                        name: "Advanced passive",
+                        example: "He is believed to be one of the best developers."
+                    },
+
+                    {
+                        name: "Conditionals with unless",
+                        example: "I won't go unless you come with me."
+                    },
+
+                    {
+                        name: "As long as / provided that",
+                        example: "You can stay as long as you're quiet."
+                    },
+
+                    {
+                        name: "Although / even though / despite",
+                        example: "Even though it was late, I continued working."
+                    },
+
+                    {
+                        name: "Would have + past participle",
+                        example: "I would have gone if I had known."
+                    },
+
+                    {
+                        name: "As if / as though",
+                        example: "He talks as if he knew everything."
+                    },
+
+                    {
+                        name: "Not only... but also",
+                        example: "She is not only smart but also hardworking."
+                    }
+
+                ]
+
+            }
+
+        };
+
+
+        // =========================================================
+        // COUNTER
+        // =========================================================
+
+        let exerciseCount = 0;
+
+
+        // =========================================================
+        // GENERATE GRAMMAR TOPIC CHECKBOXES
+        // =========================================================
+
+        function renderGrammarTopics() {
+
+            const levelIds = [
+                "level-1",
+                "level-2",
+                "level-3",
+                "level-4"
+            ];
+
+            const levels = Object.entries(grammarLevels);
+
+            levels.forEach(([levelName, level], index) => {
+
+                const container = document.getElementById(
+                    `topics-${levelIds[index]}`
+                );
+
+                level.topics.forEach((topic, topicIndex) => {
+
+                    const label = document.createElement("label");
+
+                    label.className = "topic-item";
+
+                    label.innerHTML = `
 
                     <input
                         type="checkbox"
@@ -1965,434 +1198,436 @@
 
                 `;
 
-                container.appendChild(label);
+                    container.appendChild(label);
+
+                });
 
             });
 
-        });
+            updateSelectionCount();
 
-        updateSelectionCount();
-
-    }
+        }
 
 
-    // =========================================================
-    // TOGGLE LEVEL
-    // =========================================================
+        // =========================================================
+        // TOGGLE LEVEL
+        // =========================================================
 
-    function toggleLevel(levelId) {
-
-        const level = document.getElementById(levelId);
-
-        level.classList.toggle("open");
-
-    }
-
-
-    // =========================================================
-    // SELECT ALL TOPICS IN LEVEL
-    // =========================================================
-
-    function selectAllInLevel(event, levelId) {
-
-        event.stopPropagation();
-
-        const level = document.getElementById(levelId);
-
-        const checkboxes = level.querySelectorAll(
-            ".grammar-topic"
-        );
-
-        checkboxes.forEach(checkbox => {
-
-            checkbox.checked = true;
-
-        });
-
-        updateSelectionCount();
-
-    }
-
-
-    // =========================================================
-    // CLEAR ALL TOPICS IN LEVEL
-    // =========================================================
-
-    function clearLevel(event, levelId) {
-
-        event.stopPropagation();
-
-        const level = document.getElementById(levelId);
-
-        const checkboxes = level.querySelectorAll(
-            ".grammar-topic"
-        );
-
-        checkboxes.forEach(checkbox => {
-
-            checkbox.checked = false;
-
-        });
-
-        updateSelectionCount();
-
-    }
-
-
-    // =========================================================
-    // UPDATE SELECTION COUNTS
-    // =========================================================
-
-    function updateSelectionCount() {
-
-        const allCheckboxes = document.querySelectorAll(
-            ".grammar-topic"
-        );
-
-        const totalSelected = document.querySelectorAll(
-            ".grammar-topic:checked"
-        ).length;
-
-
-        // Update total
-
-        document.getElementById(
-            "totalSelected"
-        ).textContent =
-
-            `${totalSelected} selected`;
-
-
-        // Update each level
-
-        const levelIds = [
-            "level-1",
-            "level-2",
-            "level-3",
-            "level-4"
-        ];
-
-        levelIds.forEach(levelId => {
+        function toggleLevel(levelId) {
 
             const level = document.getElementById(levelId);
 
-            const selected = level.querySelectorAll(
-                ".grammar-topic:checked"
-            ).length;
+            level.classList.toggle("open");
 
-            document.getElementById(
-                `count-${levelId}`
-            ).textContent =
-
-                `${selected} selected`;
-
-        });
-
-    }
+        }
 
 
-    // =========================================================
-    // GET SELECTED GRAMMAR TOPICS
-    // =========================================================
+        // =========================================================
+        // SELECT ALL TOPICS IN LEVEL
+        // =========================================================
 
-    function getSelectedGrammarTopics() {
+        function selectAllInLevel(event, levelId) {
 
-        const selectedTopics = [];
+            event.stopPropagation();
 
-        const checkboxes = document.querySelectorAll(
-            ".grammar-topic:checked"
-        );
+            const level = document.getElementById(levelId);
 
-        checkboxes.forEach(checkbox => {
+            const checkboxes = level.querySelectorAll(
+                ".grammar-topic"
+            );
 
-            const levelName = checkbox.dataset.level;
+            checkboxes.forEach(checkbox => {
 
-            const topicIndex =
-                Number(checkbox.dataset.topicIndex);
-
-            const level =
-                grammarLevels[levelName];
-
-            selectedTopics.push({
-
-                name: level.topics[topicIndex].name,
-
-                example: level.topics[topicIndex].example,
-
-                level: levelName
+                checkbox.checked = true;
 
             });
 
-        });
-
-        return selectedTopics;
-
-    }
-
-
-    // =========================================================
-    // GET A RANDOM ITEM FROM AN ARRAY
-    // =========================================================
-
-    function randomItem(array) {
-
-        const index = Math.floor(
-
-            Math.random() * array.length
-
-        );
-
-        return array[index];
-
-    }
-
-
-    // =========================================================
-    // GET WORDS FROM SOURCE TEXT
-    // =========================================================
-
-    function getWordsFromText() {
-
-        const text = document
-
-            .getElementById("sourceText")
-
-            .value
-
-            .trim();
-
-
-        // Return an empty array if there is no text
-
-        if (!text) {
-
-            return [];
+            updateSelectionCount();
 
         }
 
 
-        // Split only by whitespace
+        // =========================================================
+        // CLEAR ALL TOPICS IN LEVEL
+        // =========================================================
 
-        return text.split(/\s+/);
+        function clearLevel(event, levelId) {
 
-    }
+            event.stopPropagation();
 
+            const level = document.getElementById(levelId);
 
-    // =========================================================
-    // GET A RANDOM WORD FROM SOURCE TEXT
-    // =========================================================
+            const checkboxes = level.querySelectorAll(
+                ".grammar-topic"
+            );
 
-    function getRandomWord() {
+            checkboxes.forEach(checkbox => {
 
-        const words = getWordsFromText();
+                checkbox.checked = false;
 
+            });
 
-        if (words.length === 0) {
-
-            return null;
+            updateSelectionCount();
 
         }
 
 
-        return randomItem(words);
+        // =========================================================
+        // UPDATE SELECTION COUNTS
+        // =========================================================
 
-    }
+        function updateSelectionCount() {
 
+            const allCheckboxes = document.querySelectorAll(
+                ".grammar-topic"
+            );
 
-    // =========================================================
-    // GENERATE EXERCISE
-    // =========================================================
-
-    function generateExercise() {
-
-
-        // Hide previous error
-
-        document.getElementById(
-            "errorMessage"
-        ).classList.remove("visible");
+            const totalSelected = document.querySelectorAll(
+                ".grammar-topic:checked"
+            ).length;
 
 
-        // Get selected grammar topics
+            // Update total
 
-        const selectedTopics =
-            getSelectedGrammarTopics();
+            document.getElementById(
+                "totalSelected"
+            ).textContent =
+
+                `${totalSelected} selected`;
 
 
-        // Check if at least one topic was selected
+            // Update each level
 
-        if (selectedTopics.length === 0) {
+            const levelIds = [
+                "level-1",
+                "level-2",
+                "level-3",
+                "level-4"
+            ];
+
+            levelIds.forEach(levelId => {
+
+                const level = document.getElementById(levelId);
+
+                const selected = level.querySelectorAll(
+                    ".grammar-topic:checked"
+                ).length;
+
+                document.getElementById(
+                    `count-${levelId}`
+                ).textContent =
+
+                    `${selected} selected`;
+
+            });
+
+        }
+
+
+        // =========================================================
+        // GET SELECTED GRAMMAR TOPICS
+        // =========================================================
+
+        function getSelectedGrammarTopics() {
+
+            const selectedTopics = [];
+
+            const checkboxes = document.querySelectorAll(
+                ".grammar-topic:checked"
+            );
+
+            checkboxes.forEach(checkbox => {
+
+                const levelName = checkbox.dataset.level;
+
+                const topicIndex =
+                    Number(checkbox.dataset.topicIndex);
+
+                const level =
+                    grammarLevels[levelName];
+
+                selectedTopics.push({
+
+                    name: level.topics[topicIndex].name,
+
+                    example: level.topics[topicIndex].example,
+
+                    level: levelName
+
+                });
+
+            });
+
+            return selectedTopics;
+
+        }
+
+
+        // =========================================================
+        // GET A RANDOM ITEM FROM AN ARRAY
+        // =========================================================
+
+        function randomItem(array) {
+
+            const index = Math.floor(
+
+                Math.random() * array.length
+
+            );
+
+            return array[index];
+
+        }
+
+
+        // =========================================================
+        // GET WORDS FROM SOURCE TEXT
+        // =========================================================
+
+        function getWordsFromText() {
+
+            const text = document
+
+                .getElementById("sourceText")
+
+                .value
+
+                .trim();
+
+
+            // Return an empty array if there is no text
+
+            if (!text) {
+
+                return [];
+
+            }
+
+
+            // Split only by whitespace
+
+            return text.split(/\s+/);
+
+        }
+
+
+        // =========================================================
+        // GET A RANDOM WORD FROM SOURCE TEXT
+        // =========================================================
+
+        function getRandomWord() {
+
+            const words = getWordsFromText();
+
+
+            if (words.length === 0) {
+
+                return null;
+
+            }
+
+
+            return randomItem(words);
+
+        }
+
+
+        // =========================================================
+        // GENERATE EXERCISE
+        // =========================================================
+
+        function generateExercise() {
+
+
+            // Hide previous error
 
             document.getElementById(
                 "errorMessage"
+            ).classList.remove("visible");
+
+
+            // Get selected grammar topics
+
+            const selectedTopics =
+                getSelectedGrammarTopics();
+
+
+            // Check if at least one topic was selected
+
+            if (selectedTopics.length === 0) {
+
+                document.getElementById(
+                    "errorMessage"
+                ).classList.add("visible");
+
+                return;
+
+            }
+
+
+            // Get a random word from source text
+
+            const selectedWord =
+                getRandomWord();
+
+
+            // Select a random grammar topic
+
+            const grammarTopic =
+                randomItem(selectedTopics);
+
+
+            // Select a random context
+
+            const context =
+                randomItem(contexts);
+
+
+            // =====================================================
+            // DISPLAY SELECTED WORD
+            // =====================================================
+
+            const selectedWordElement =
+                document.getElementById(
+                    "selectedWord"
+                );
+
+
+            if (selectedWord) {
+
+                selectedWordElement.textContent =
+                    selectedWord;
+
+            } else {
+
+                selectedWordElement.textContent =
+                    "No word selected";
+
+            }
+
+
+            // =====================================================
+            // DISPLAY GRAMMAR TOPIC
+            // =====================================================
+
+            document.getElementById(
+                "grammarTopic"
+            ).textContent =
+
+                grammarTopic.name;
+
+
+            // =====================================================
+            // DISPLAY GRAMMAR LEVEL
+            // =====================================================
+
+            document.getElementById(
+                "grammarLevel"
+            ).textContent =
+
+                grammarTopic.level;
+
+
+            // =====================================================
+            // DISPLAY GRAMMAR EXAMPLE
+            // =====================================================
+
+            document.getElementById(
+                "grammarExample"
+            ).textContent =
+
+                "Example: " + grammarTopic.example;
+
+
+            // =====================================================
+            // DISPLAY CONTEXT
+            // =====================================================
+
+            document.getElementById(
+                "context"
+            ).textContent =
+
+                context.name;
+
+
+            // =====================================================
+            // DISPLAY CONTEXT DESCRIPTION
+            // =====================================================
+
+            document.getElementById(
+                "contextDescription"
+            ).textContent =
+
+                context.description;
+
+
+            // =====================================================
+            // SHOW RESULTS
+            // =====================================================
+
+            document.getElementById(
+                "result"
             ).classList.add("visible");
 
-            return;
 
-        }
+            // =====================================================
+            // HIDE INITIAL MESSAGE
+            // =====================================================
 
-
-        // Get a random word from source text
-
-        const selectedWord =
-            getRandomWord();
-
-
-        // Select a random grammar topic
-
-        const grammarTopic =
-            randomItem(selectedTopics);
-
-
-        // Select a random context
-
-        const context =
-            randomItem(contexts);
-
-
-        // =====================================================
-        // DISPLAY SELECTED WORD
-        // =====================================================
-
-        const selectedWordElement =
             document.getElementById(
-                "selectedWord"
-            );
+                "emptyMessage"
+            ).style.display = "none";
 
 
-        if (selectedWord) {
+            // =====================================================
+            // UPDATE COUNTER
+            // =====================================================
 
-            selectedWordElement.textContent =
-                selectedWord;
+            exerciseCount++;
 
-        } else {
 
-            selectedWordElement.textContent =
-                "No word selected";
+            document.getElementById(
+                "counter"
+            ).textContent =
+
+                exerciseCount;
+
+            document.getElementById("createdSentence").value = "";
 
         }
 
 
-        // =====================================================
-        // DISPLAY GRAMMAR TOPIC
-        // =====================================================
+        // =========================================================
+        // CLEAR RESULT
+        // =========================================================
 
-        document.getElementById(
-            "grammarTopic"
-        ).textContent =
+        function clearExercise() {
 
-            grammarTopic.name;
-
-
-        // =====================================================
-        // DISPLAY GRAMMAR LEVEL
-        // =====================================================
-
-        document.getElementById(
-            "grammarLevel"
-        ).textContent =
-
-            grammarTopic.level;
+            document.getElementById(
+                "result"
+            ).classList.remove("visible");
 
 
-        // =====================================================
-        // DISPLAY GRAMMAR EXAMPLE
-        // =====================================================
-
-        document.getElementById(
-            "grammarExample"
-        ).textContent =
-
-            "Example: " + grammarTopic.example;
+            document.getElementById(
+                "emptyMessage"
+            ).style.display = "block";
 
 
-        // =====================================================
-        // DISPLAY CONTEXT
-        // =====================================================
+            document.getElementById(
+                "errorMessage"
+            ).classList.remove("visible");
 
-        document.getElementById(
-            "context"
-        ).textContent =
-
-            context.name;
+        }
 
 
-        // =====================================================
-        // DISPLAY CONTEXT DESCRIPTION
-        // =====================================================
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
 
-        document.getElementById(
-            "contextDescription"
-        ).textContent =
-
-            context.description;
+        renderGrammarTopics();
 
 
-        // =====================================================
-        // SHOW RESULTS
-        // =====================================================
-
-        document.getElementById(
-            "result"
-        ).classList.add("visible");
-
-
-        // =====================================================
-        // HIDE INITIAL MESSAGE
-        // =====================================================
-
-        document.getElementById(
-            "emptyMessage"
-        ).style.display = "none";
-
-
-        // =====================================================
-        // UPDATE COUNTER
-        // =====================================================
-
-        exerciseCount++;
-
-
-        document.getElementById(
-            "counter"
-        ).textContent =
-
-            exerciseCount;
-
-    }
-
-
-    // =========================================================
-    // CLEAR RESULT
-    // =========================================================
-
-    function clearExercise() {
-
-        document.getElementById(
-            "result"
-        ).classList.remove("visible");
-
-
-        document.getElementById(
-            "emptyMessage"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "errorMessage"
-        ).classList.remove("visible");
-
-    }
-
-
-    // =========================================================
-    // INITIALIZE
-    // =========================================================
-
-    renderGrammarTopics();
-
-
-</script>
+    </script>
 
 
 </body>
