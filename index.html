@@ -38,48 +38,126 @@
              QUICK HOW IT WORKS
              ================================================= -->
 
-            <div class="quick-how-it-works">
+            <div class="how-it-works-button-container">
 
-                <h2>How it works</h2>
+                <button type="button" class="how-it-works-button" onclick="openHowItWorks()">
 
-                <div class="quick-steps">
+                    How it works
 
-                    <div class="quick-step">
-                        <span class="quick-step-number">1</span>
-                        <span class="quick-step-title">Choose words</span>
-                        <span class="quick-step-description">Add words or text to practice with</span>
-                    </div>
+                </button>
+                <!-- =================================================
+                HOW IT WORKS MODAL
+                ================================================= -->
 
-                    <div class="quick-arrow">→</div>
+                <div id="howItWorksModal" class="how-it-works-modal" onclick="closeHowItWorks(event)">
 
-                    <div class="quick-step">
-                        <span class="quick-step-number">2</span>
-                        <span class="quick-step-title">Choose grammar</span>
-                        <span class="quick-step-description">Select grammar topics</span>
-                    </div>
+                    <div class="how-it-works-content" onclick="event.stopPropagation()">
 
-                    <div class="quick-arrow">→</div>
+                        <div class="how-it-works-header">
 
-                    <div class="quick-step">
-                        <span class="quick-step-number">3</span>
-                        <span class="quick-step-title">Generate</span>
-                        <span class="quick-step-description">Get your exercise</span>
-                    </div>
+                            <h2>How it works</h2>
 
-                    <div class="quick-arrow">→</div>
+                            <button type="button" class="how-it-works-close" onclick="closeHowItWorks()">
 
-                    <div class="quick-step">
-                        <span class="quick-step-number">4</span>
-                        <span class="quick-step-title">Write</span>
-                        <span class="quick-step-description">Create your sentence</span>
-                    </div>
+                                ×
 
-                    <div class="quick-arrow">→</div>
+                            </button>
 
-                    <div class="quick-step">
-                        <span class="quick-step-number">5</span>
-                        <span class="quick-step-title">Get feedback</span>
-                        <span class="quick-step-description">Talk to Teacher Dilo</span>
+                        </div>
+
+
+                        <div class="quick-steps">
+
+                            <div class="quick-step">
+
+                                <span class="quick-step-number">1</span>
+
+                                <span class="quick-step-title">
+                                    Choose words
+                                </span>
+
+                                <span class="quick-step-description">
+                                    Add words or text to practice with
+                                </span>
+
+                            </div>
+
+
+                            <div class="quick-arrow">→</div>
+
+
+                            <div class="quick-step">
+
+                                <span class="quick-step-number">2</span>
+
+                                <span class="quick-step-title">
+                                    Choose grammar
+                                </span>
+
+                                <span class="quick-step-description">
+                                    Select grammar topics
+                                </span>
+
+                            </div>
+
+
+                            <div class="quick-arrow">→</div>
+
+
+                            <div class="quick-step">
+
+                                <span class="quick-step-number">3</span>
+
+                                <span class="quick-step-title">
+                                    Generate
+                                </span>
+
+                                <span class="quick-step-description">
+                                    Get your exercise
+                                </span>
+
+                            </div>
+
+
+                            <div class="quick-arrow">→</div>
+
+
+                            <div class="quick-step">
+
+                                <span class="quick-step-number">4</span>
+
+                                <span class="quick-step-title">
+                                    Write
+                                </span>
+
+                                <span class="quick-step-description">
+                                    Create your sentence
+                                </span>
+
+                            </div>
+
+
+                            <div class="quick-arrow">→</div>
+
+
+                            <div class="quick-step">
+
+                                <span class="quick-step-number">5</span>
+
+                                <span class="quick-step-title">
+                                    Get feedback
+                                </span>
+
+                                <span class="quick-step-description">
+                                    Talk to Teacher Dilo <a class="how-it-works-link" href="https://wa.me/555181405668" target="_blank"
+                                        rel="noopener noreferrer" aria-label="Teacher Dilo on WhatsApp"
+                                        title="WhatsApp">Here</a>
+                                </span>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -1627,6 +1705,33 @@
         renderGrammarTopics();
 
 
+        // =========================================================
+        // HOW IT WORKS MODAL
+        // =========================================================
+
+        function openHowItWorks() {
+
+            document
+                .getElementById("howItWorksModal")
+                .classList.add("visible");
+
+        }
+
+
+        function closeHowItWorks(event) {
+
+            if (
+                !event ||
+                event.target === document.getElementById("howItWorksModal")
+            ) {
+
+                document
+                    .getElementById("howItWorksModal")
+                    .classList.remove("visible");
+
+            }
+
+        }
     </script>
 
 
